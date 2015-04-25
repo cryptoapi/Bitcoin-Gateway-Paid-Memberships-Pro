@@ -3,10 +3,10 @@ Contributors: gourl, GoUrl.io
 Plugin Name: GoUrl Paid Memberships Pro - Bitcoin Payment Gateway Addon
 Plugin URI: https://gourl.io/bitcoin-payments-paid-memberships-pro.html
 Author URI: https://gourl.io 
-Tags: paidmembershipspro, pmpro, membership, paid membership, bitcoin, bitcoins, bitcoin payments, gourl, cryptocurrency, btc, litecoin, dogecoin, paycoin, reddcoin, speedcoin, darkcoin, potcoin, feathercoin, vertcoin, vericoin, paid memberships pro
+Tags: paidmembershipspro, pmpro, membership, paid membership, bitcoin, bitcoins, bitcoin payments, gourl, cryptocurrency, btc, litecoin, dogecoin, paycoin, reddcoin, speedcoin, dash, potcoin, feathercoin, vertcoin, vericoin, paid memberships pro, peercoin
 Requires at least: 3.5
 Tested up to: 4.2
-Stable Tag: 1.0.0
+Stable Tag: 1.1.0
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,36 +22,45 @@ Wordpress Plugin for Paid Memberships Pro Features -
 
 * 100% Free Open Source Plugin on [Github.com](https://github.com/cryptoapi/Bitcoin-Gateway-Paid-Memberships-Pro)
 * Provides a Cryptocurrency Payment Gateway for [Paid Memberships Pro 1.8 or higher](https://wordpress.org/plugins/paid-memberships-pro/)
-* Accept Bitcoin, Litecoin, Speedcoin, Dogecoin, Paycoin, Darkcoin, Reddcoin, Potcoin, Feathercoin, Vertcoin, Vericoin payments in Paid Memberships Pro
+* Accept Bitcoin, Litecoin, Paycoin, Dogecoin, Dash, Speedcoin, Reddcoin, Potcoin, Feathercoin, Vertcoin, Vericoin, Peercoin payments in Paid Memberships Pro
 * No Monthly Fee, Transaction Fee from 0%
 * Direct Integration on your website, no external payment pages opens (as other payment gateways offer)
 * You will see the bitcoin/altcoin payment statistics in one common table on your website. 
 * No Chargebacks, Global, Secure. All in automatic mode.
 * [Free Tech Support](https://gourl.io/view/contact/Contact_Us.html) for You
 
-Please note you need to install also - [GoUrl Wordpress Plugin with Payment Gateway](https://wordpress.org/plugins/gourl-bitcoin-payment-gateway-paid-downloads-membership/)
-
 
 Plugin Page: [https://gourl.io/bitcoin-payments-paid-memberships-pro.html](https://gourl.io/bitcoin-payments-paid-memberships-pro.html)
 
 Twitter: [https://twitter.com/CryptocoinAPI](https://twitter.com/CryptocoinAPI)
 
-Github: [https://github.com/cryptoapi/Bitcoin-Payments-PaidMembershipsPro](https://github.com/cryptoapi/Bitcoin-Payments-PaidMembershipsPro)
+Github: [https://github.com/cryptoapi/Bitcoin-Gateway-Paid-Memberships-Pro](https://github.com/cryptoapi/Bitcoin-Gateway-Paid-Memberships-Pro)
 
 
 
 
 == Installation ==
 
-= Minimum Requirements =
 
-* Paid Memberships Pro 1.8 or higher version
+= Requirements =
+
+You need to install also -
+
+* [Paid Memberships Pro](https://wordpress.org/plugins/paid-memberships-pro/)
+* [GoUrl Main Wordpress Gateway Plugin](https://wordpress.org/plugins/gourl-bitcoin-payment-gateway-paid-downloads-membership/)
+
+
+IMPORTANT! Also you need to update file confirmation.php - 
+
+Read here:  [https://gourl.io/bitcoin-payments-paid-memberships-pro.html#notes](https://gourl.io/bitcoin-payments-paid-memberships-pro.html#notes)
+
 
 = Automatic installation =
 
 Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of GoUrl Bitcoin/Altcoin Gateway for PaidMembershipsPro, log in to your WordPress dashboard, navigate to the Plugins menu and click Add New.
 
 In the search field type "GoUrl Paid Memberships Pro" and click Search Plugins. Once you've found our plugin you can view details about it such as the the rating and description. Most importantly, of course, you can install it by simply clicking Install Now.
+
 
 = Manual Installation =
 
@@ -60,15 +69,6 @@ In the search field type "GoUrl Paid Memberships Pro" and click Search Plugins. 
 * Upload the zipped gourl_pmpro file and click "Upload Now"
 * Go to Installed Plugins
 * Activate the "GoUrl Paid Memberships Pro - Bitcoin Payment Gateway Addon"
-
-
-= IMPORTANT =
-
-Also you need to update file confirmation.php - 
-
-Open file [paid-memberships-pro/preheaders/confirmation.php](https://raw.githubusercontent.com/cryptoapi/paid-memberships-pro/dev/preheaders/confirmation.php) and add - && pmpro_getOption("gateway") != "gourl" 
-
-Read here:  [https://gourl.io/bitcoin-payments-paid-memberships-pro.html#notes](https://gourl.io/bitcoin-payments-paid-memberships-pro.html#notes)
   
 
 
@@ -88,9 +88,11 @@ Read here:  [https://gourl.io/bitcoin-payments-paid-memberships-pro.html#notes](
 
 == Changelog == 
 
+= 1.1.0 =
+Added Peercoin 
+Spanish payment box localisation
 
 = 1.0.0 =
 Initial Release
-    
-  
+
  
