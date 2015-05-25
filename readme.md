@@ -2,7 +2,7 @@
 GoUrl Paid Memberships Pro - Bitcoin Payment Gateway Addon
 -----------------------------------------------------------
 
-Version 1.1.0
+Version 1.1.1
 
 **Wordpress Plugin provides a Bitcoin/Altcoin Payment Gateway for Paid Memberships Pro 1.8+ or higher.**
 
@@ -11,8 +11,8 @@ Accept Bitcoin, Litecoin, Paycoin, Dogecoin, Dash, Speedcoin, Reddcoin, Potcoin,
 * Author URI: [https://gourl.io](https://gourl.io)
 * Plugin Page: [https://gourl.io/bitcoin-payments-paid-memberships-pro.html](https://gourl.io/bitcoin-payments-paid-memberships-pro.html)
 * Screenshots: [https://gourl.io/bitcoin-payments-paid-memberships-pro.html#screenshot](https://gourl.io/bitcoin-payments-paid-memberships-pro.html#screenshot)
-* Requires at least: Wordpress 3.5 and Paid Memberships Pro 1.8
-* Stable Tag: 1.1.0
+* Requires at least: Wordpress 3.5 and Paid Memberships Pro 1.8.4
+* Stable Tag: 1.1.1
 * License: GNU Version 2 or Any Later Version
 
 
@@ -38,15 +38,6 @@ Installation Instruction
 * Activate the "GoUrl Paid Memberships Pro - Bitcoin Altcoin Payment Gateway Addon"
 
   
-**= IMPORTANT =**
-
-Also you need to update file confirmation.php - 
-Open file [paid-memberships-pro/preheaders/confirmation.php](https://raw.githubusercontent.com/cryptoapi/paid-memberships-pro/dev/preheaders/confirmation.php), find text below (line 9) and add - && pmpro_getOption("gateway") != "gourl"
-# ![Plugin Options](https://gourl.io/images/pmpro/screenshot-6.png)
-
-Read here:  [https://gourl.io/bitcoin-payments-paid-memberships-pro.html#notes](https://gourl.io/bitcoin-payments-paid-memberships-pro.html#notes)
-  
-
 .
   
 Plugin Options
@@ -73,4 +64,5 @@ Payment Received Successfully
 . 
 
 # ![Payment Received Successfully](https://gourl.io/images/pmpro/screenshot-3.png)
-
+   
+   

@@ -6,7 +6,7 @@ Author URI: https://gourl.io
 Tags: paidmembershipspro, pmpro, membership, paid membership, bitcoin, bitcoins, bitcoin payments, gourl, cryptocurrency, btc, litecoin, dogecoin, paycoin, reddcoin, speedcoin, dash, potcoin, feathercoin, vertcoin, vericoin, paid memberships pro, peercoin
 Requires at least: 3.5
 Tested up to: 4.2
-Stable Tag: 1.1.0
+Stable Tag: 1.1.1
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,10 +50,6 @@ You need to install also -
 * [GoUrl Main Wordpress Gateway Plugin](https://wordpress.org/plugins/gourl-bitcoin-payment-gateway-paid-downloads-membership/)
 
 
-IMPORTANT! Also you need to update file confirmation.php - 
-
-Read here:  [https://gourl.io/bitcoin-payments-paid-memberships-pro.html#notes](https://gourl.io/bitcoin-payments-paid-memberships-pro.html#notes)
-
 
 = Automatic installation =
 
@@ -88,9 +84,12 @@ In the search field type "GoUrl Paid Memberships Pro" and click Search Plugins. 
 
 == Changelog == 
 
+= 1.1.1 =
+Localisation - You can easy change/localize any text in plugin
+
 = 1.1.0 =
-Added Peercoin 
-Spanish payment box localisation
+* Add Peercoin [PPC] cryptocurrency
+* Add Spanish Payment Box translation
 
 = 1.0.0 =
 Initial Release

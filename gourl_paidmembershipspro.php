@@ -3,7 +3,7 @@
 Plugin Name: 		GoUrl Paid Memberships Pro - Bitcoin Payment Gateway Addon
 Plugin URI: 		https://gourl.io/bitcoin-payments-paid-memberships-pro.html
 Description: 		Provides a <a href="https://gourl.io">GoUrl.io</a> Bitcoin/Altcoin Payment Gateway for <a href="https://wordpress.org/plugins/paid-memberships-pro/">Paid Memberships Pro 1.8+</a>. Direct Integration on your website, no external payment pages opens (as other payment gateways offer). Accept Bitcoin, Litecoin, Paycoin, Dogecoin, Dash, Speedcoin, Reddcoin, Potcoin, Feathercoin, Vertcoin, Vericoin, Peercoin payments online. You will see the bitcoin/altcoin payment statistics in one common table on your website. No Chargebacks, Global, Secure. All in automatic mode.
-Version: 			1.1.0
+Version: 			1.1.1
 Author: 			GoUrl.io
 Author URI: 		https://gourl.io
 License: 			GPLv2
@@ -11,14 +11,26 @@ License URI: 		http://www.gnu.org/licenses/gpl-2.0.html
 GitHub Plugin URI: 	https://github.com/cryptoapi/Bitcoin-Gateway-Paid-Memberships-Pro
 */
 
-if (!defined( 'ABSPATH' )) exit;  // Exit if accessed directly in wordpress    
+
+if (!defined( 'ABSPATH' )) exit; // Exit if accessed directly
 
 if (!function_exists('gourl_pmp_gateway_load'))
 {
+	// localisation
+	add_action( 'plugins_loaded', 'gourl_pmp_load_textdomain' );
+		
 	// gateway load
 	add_action( 'plugins_loaded', 'gourl_pmp_gateway_load', 20);
 	
-	DEFINE('GOURLPMP', "pmp-gourl");
+	DEFINE('GOURLPMP', "gourl-paidmembershipspro");
+	
+	
+	
+	function gourl_pmp_load_textdomain()
+	{
+		load_plugin_textdomain( GOURLPMP, false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+	}
+
 	
 	
 	function gourl_pmp_gateway_load()
@@ -41,7 +53,6 @@ if (!function_exists('gourl_pmp_gateway_load'))
 		
 		// plugin links
 		add_filter('plugin_action_links', array('PMProGateway_gourl', 'plugin_action_links'), 10, 2 );
-
 
 		
 		
@@ -110,7 +121,7 @@ if (!function_exists('gourl_pmp_gateway_load'))
 			public static function pmpro_gateways($gateways)
 			{
 				if(empty($gateways['gourl']))
-				$gateways = array_slice($gateways, 0, 1) + array("gourl" => __('GoUrl Bitcoin/Altcoin', GOURLPMP)) + array_slice($gateways, 1);
+				$gateways = array_slice($gateways, 0, 1) + array("gourl" => __('GoUrl Bitcoin/Altcoins', GOURLPMP)) + array_slice($gateways, 1);
 		
 				return $gateways;
 			}
@@ -159,6 +170,8 @@ if (!function_exists('gourl_pmp_gateway_load'))
 					foreach ($arr as $k => $v)
 						$currencies[$k] = __( "Cryptocurrency", GOURLPMP ) . " - " . __( ucfirst($v), GOURLPMP );
 				}
+				
+				__( 'Bitcoin', GOURLPMP );  // use in translation
 					
 				return $currencies;
 			}
@@ -175,22 +188,21 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				$languages 		= array();
 				$mainplugin_url = admin_url("plugin-install.php?tab=search&type=term&s=GoUrl+Bitcoin+Payment+Gateway+Downloads");
 		
-				$description	= "<a target='_blank' href='https://gourl.io/'><img border='0' style='float:left; margin-right:25px' src='https://gourl.io/images/gourlpayments.png'></a>";
-				$description	.= sprintf(__( '<a href="%s">Plugin Homepage</a> & <a href="%s">Screenshots &#187;</a>', GOURLPMP ), "https://gourl.io/bitcoin-payments-paid-memberships-pro.html", "https://gourl.io/bitcoin-payments-paid-memberships-pro.html#screenshot") . "<br>";
-					
-				$description .= "<b>" . __( 'Secure payments with virtual currency. &#160; <a target="_blank" href="https://bitcoin.org/">What is Bitcoin?</a>', GOURLPMP ) . '</b><br/>';
-				$description .= sprintf(__( 'Accept %s payments online in PaidMembershipsPro.', GOURLPMP), ($coin_names?ucwords(implode(", ", $coin_names)):"Bitcoin, Litecoin, Paycoin, Dogecoin, Dash, Speedcoin, Reddcoin, Potcoin, Feathercoin, Vertcoin, Vericoin, Peercoin")).'<br/>';
-				if (class_exists('gourlclass')) $description .= __( 'If you use multiple sites online, please create separate <a target="_blank" href="https://gourl.io/editrecord/coin_boxes/0">GoUrl Payment Box</a> (with unique payment box public/private keys) for each of your websites. Do not use the same GoUrl Payment Box with the same public/private keys on your different websites.', GOURLPMP ).'<br/>';
-					
+				$description  	= "<a target='_blank' href='https://gourl.io/'><img border='0' style='float:left; margin-right:15px' src='https://gourl.io/images/gourlpayments.png'></a>";
+				$description  .= "<a target='_blank' href='https://gourl.io/bitcoin-payments-paid-memberships-pro.html'>".__( 'Plugin Homepage', GOURLPMP )."</a> &#160;&amp;&#160; <a target='_blank' href='https://gourl.io/bitcoin-payments-paid-memberships-pro.html#screenshot'>".__( 'screenshots', GOURLPMP )." &#187;</a><br>";
+				$description  .= "<a target='_blank' href='https://github.com/cryptoapi/Bitcoin-Gateway-Paid-Memberships-Pro'>".__( 'Plugin on Github - 100% Free Open Source', GOURLPMP )." &#187;</a><br><br>";
+				
 				if (class_exists('gourlclass') && defined('GOURL') && defined('GOURL_ADMIN') && is_object($gourl))
 				{
-					if (true === version_compare(GOURL_VERSION, '1.3', '<'))
+					if (true === version_compare(GOURL_VERSION, '1.3.2', '<'))
 					{
-						$description .= '<br><div style="background:#fff;border:1px solid #f77676;padding:7px"><p>' .sprintf(__( '<b>Your GoUrl Bitcoin Gateway <a href="%s">Main Plugin</a> version is too old. Requires 1.3 or higher version. Please <a href="%s">update</a> to latest version.</b>  &#160; &#160; &#160; &#160; Information: &#160; <a href="https://gourl.io/bitcoin-wordpress-plugin.html">Plugin Homepage</a> &#160; &#160; &#160; <a href="https://wordpress.org/plugins/gourl-bitcoin-payment-gateway-paid-downloads-membership/">WordPress.org Plugin Page</a>', GOURLPMP ), GOURL_ADMIN.GOURL, $mainplugin_url).'</p></div>';
+						$description .= '<div style="background:#fff;border:1px solid #f77676;padding:7px"><p><b>' .sprintf(__( "Your GoUrl Bitcoin Gateway <a href='%s'>Main Plugin</a> version is too old. Requires 1.3.2 or higher version. Please <a href='%s'>update</a> to latest version.", GOURLPMP ), GOURL_ADMIN.GOURL, $mainplugin_url)."</b> &#160; &#160; &#160; &#160; " .
+										__( 'Information', GOURLPMP ) . ": &#160; <a href='https://gourl.io/bitcoin-wordpress-plugin.html'>".__( 'Main Plugin Homepage', GOURLPMP )."</a> &#160; &#160; &#160; " .
+										"<a href='https://wordpress.org/plugins/gourl-bitcoin-payment-gateway-paid-downloads-membership/'>".__( 'WordPress.org Plugin Page', GOURLPMP )."</a></p></div><br>";
 					}
-					elseif (true === version_compare(PMPRO_VERSION, '1.8', '<'))
+					elseif (true === version_compare(PMPRO_VERSION, '1.8.4', '<'))
 					{
-						$description .= '<br><div style="background:#fff;border:1px solid #f77676;padding:7px"><p>' .sprintf(__( '<b>Your PaidMembershipsPro version %s is too old</b>. Requires 1.8 or higher version for GoUrl Bitcoin/Altcoin Payment Gateway', GOURLPMP ), PMPRO_VERSION).'</p></div>';
+						$description .= '<div style="background:#fff;border:1px solid #f77676;padding:7px"><p><b>' .sprintf(__( "Your PaidMembershipsPro version is too old. The GoUrl payment plugin requires PaidMembershipsPro 1.8.4 or higher to function. Please update to <a href='%s'>latest version</a>.", GOURLPMP ), admin_url('plugin-install.php?tab=search&type=term&s=paidmembershipspro+affiliates')).'</b></p></div><br>';
 					}
 					else
 					{
@@ -211,12 +223,20 @@ if (!function_exists('gourl_pmp_gateway_load'))
 					$url	= $mainplugin_url;
 					$url2	= $url;
 					$url3	= $url;
-					$text 	= __( '<b>Please install GoUrl Bitcoin Gateway WP Plugin &#187;</b>', GOURLPMP );
+					$text 	= '<b>'.__( 'Please install GoUrl Bitcoin Gateway WP Plugin', GOURLPMP ).' &#187;</b>';
 						
-					$description .= '<br><div style="background:#fff;border:1px solid #f77676;padding:7px;color:#444"><p>' .sprintf(__( 'You need to install GoUrl Bitcoin Gateway Main Plugin also. &#160; Go to - <a href="%s">Automatic installation</a> or <a href="https://gourl.io/bitcoin-wordpress-plugin.html">Manual</a>. &#160; &#160; &#160; &#160; Information: &#160; <a href="https://gourl.io/bitcoin-wordpress-plugin.html">Main Plugin Homepage</a> &#160; &#160; &#160; <a href="https://wordpress.org/plugins/gourl-bitcoin-payment-gateway-paid-downloads-membership/">WordPress.org Plugin Page</a> ', GOURLPMP ), $mainplugin_url).'</p></div>';
+					$description .= '<div style="background:#fff;border:1px solid #f77676;padding:7px;color:#444"><p><b>' .
+							sprintf(__( "You need to install GoUrl Bitcoin Gateway Main Plugin also. Go to - <a href='%s'>Automatic installation</a> or <a href='%s'>Manual</a>.", GOURLPMP ), $mainplugin_url, "https://gourl.io/bitcoin-wordpress-plugin.html") . "</b> &#160; &#160; &#160; &#160; " .
+							__( 'Information', GOURLPMP ) . ": &#160; &#160;<a href='https://gourl.io/bitcoin-wordpress-plugin.html'>".__( 'Main Plugin Homepage', GOURLPMP )."</a> &#160; &#160; &#160; <a href='https://wordpress.org/plugins/gourl-bitcoin-payment-gateway-paid-downloads-membership/'>" .
+							__( 'WordPress.org Plugin Page', GOURLPMP ) . "</a></p></div><br>";
+						
 				}
 		
-		
+				$description  .= "<b>" . __( "Secure payments with virtual currency. <a target='_blank' href='https://bitcoin.org/'>What is Bitcoin?</a>", GOURLPMP ) . '</b><br>';
+				$description  .= sprintf(__( 'Accept %s payments online in PaidMembershipsPro.', GOURLPMP ), __( ucwords(implode(", ", $coin_names)), GOURLPMP )).'<br>';
+				if (class_exists('gourlclass')) $description .= sprintf(__( "If you use multiple websites online, please create separate <a target='_blank' href='%s'>GoUrl Payment Box</a> (with unique payment box public/private keys) for each of your websites. Do not use the same GoUrl Payment Box with the same public/private keys on your different websites.", GOURLPMP ), "https://gourl.io/editrecord/coin_boxes/0") . '<br><br>';
+
+				
 				$tr = '<tr class="gateway gateway_gourl"'.($gateway!="gourl"?' style="display: none;"':'').'>';
 					
 				// a
@@ -239,7 +259,8 @@ if (!function_exists('gourl_pmp_gateway_load'))
 					<td><select name="gourl_defcoin" id="gourl_defcoin">';
 				foreach ($payments as $k => $v) $tmp .= "<option value='".$k."'".self::sel($k, $defcoin).">".$v."</option>";
 				$tmp .= "</select>";
-				$tmp .= '<p class="description">'.sprintf(__( 'Default Coin in Crypto Payment Box. &#160; Activated Payments : <a href="%s">%s</a>', GOURLPMP), $url, $text)."</p></td>";
+				$tmp .= '<p class="description">'.sprintf(__( "Default Coin in Crypto Payment Box. Activated Payments : <a href='%s'>%s</a>", GOURLPMP), $url, $text)."</p></td>";
+				
 				$tmp .= "</tr>";
 					
 					
@@ -248,7 +269,7 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				if (!in_array($deflang, array_keys($languages))) $deflang = current(array_keys($languages));
 		
 				$tmp .= $tr.'<th scope="row" valign="top"><label for="gourl_deflang">'.__( 'PaymentBox Language', GOURLPMP ).'</label></th>
-		            <td><select name="gourl_deflang" id="gourl_deflang">';
+					<td><select name="gourl_deflang" id="gourl_deflang">';
 				foreach ($languages as $k => $v) $tmp .= "<option value='".$k."'".self::sel($k, $deflang).">".$v."</option>";
 				$tmp .= "</select>";
 				$tmp .= '<p class="description">'.__("Default Crypto Payment Box Localisation", GOURLPMP)."</p></td>";
@@ -260,8 +281,8 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				if (!$emultiplier || !is_numeric($emultiplier) || $emultiplier <= 0) $emultiplier = "1.00";
 					
 				$tmp .= $tr.'<th scope="row" valign="top"><label for="gourl_emultiplier">'.__( 'Exchange Rate Multiplier', GOURLPMP ).'</label></th>
-		            <td><input type="text" value="'.$emultiplier.'" name="gourl_emultiplier" id="gourl_emultiplier">';
-				$tmp .= '<p class="description">'.sprintf(__('The system uses the multiplier rate with today LIVE cryptocurrency exchange rates (which are updated every 30 minutes) when the transaction is calculating from a fiat currency (e.g. USD, EUR, etc) to %s. <br />Example: <b>1.05</b> - will add an extra 5%% to the total price in bitcoin/altcoins, <b>0.85</b> - will be a 15%% discount for the price in bitcoin/altcoins. Default: 1.00 ', GOURLPMP ), $coins)."</p></td>";
+					<td><input type="text" value="'.$emultiplier.'" name="gourl_emultiplier" id="gourl_emultiplier">';
+				$tmp .= '<p class="description">'.__('The system uses the multiplier rate with today LIVE cryptocurrency exchange rates (which are updated every 30 minutes) when the transaction is calculating from a fiat currency (e.g. USD, EUR, etc) to cryptocurrency. <br> Example: <b>1.05</b> - will add an extra 5% to the total price in bitcoin/altcoins, <b>0.85</b> - will be a 15% discount for the price in bitcoin/altcoins. Default: 1.00', GOURLPMP )."</p></td>";
 				$tmp .= "</tr>";
 					
 					
@@ -270,18 +291,24 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				if (!$iconwidth || !is_numeric($iconwidth) || $iconwidth < 30 || $iconwidth > 250) $iconwidth = 60;
 				$iconwidth = $iconwidth . "px";
 					
-				$tmp .= $tr.'<th scope="row" valign="top"><label for="gourl_iconwidth">'.__( 'Icon Width', GOURLPMP ).'</label></th>
-		            <td><input type="text" value="'.$iconwidth.'" name="gourl_iconwidth" id="gourl_iconwidth">';
-				$tmp .= '<p class="description">'.__( 'Cryptocoin icons width in "Select Payment Method". Default 60px. Allowed: 30..250px', GOURLPMP )."</p></td>";
+				$tmp .= $tr.'<th scope="row" valign="top"><label for="gourl_iconwidth">'.__( 'Icons Size', GOURLPMP ).'</label></th>
+					<td><input type="text" value="'.$iconwidth.'" name="gourl_iconwidth" id="gourl_iconwidth">';
+				$tmp .= '<p class="description">'.__( "Cryptocoin icons size in 'Select Payment Method' that the customer will see on your checkout. Default 60px. Allowed: 30..250px", GOURLPMP )."</p></td>";
 				$tmp .= "</tr>";
 					
 					
 				// g
 				$tmp .= $tr.'<th scope="row" valign="top"><label for="gourl_boxstyle">'.__( 'PaymentBox Style', GOURLPMP ).'</label></th>
-	            	<td>'.sprintf(__( 'Payment Box <a target="_blank" href="%s">sizes</a> and border <a target="_blank" href="%s">shadow</a> you can change <a href="%s">here &#187;</a>', GOURLPMP ), "https://gourl.io/images/global/sizes.png", "https://gourl.io/images/global/styles.png", $url."#gourlvericoinprivate_key")."</td>";
+					<td>'.sprintf(__( "Payment Box <a href='%s'>sizes</a> and border <a href='%s'>shadow</a> you can change <a href='%s'>here &#187;</a>", GOURLPMP ), "https://gourl.io/images/global/sizes.png", "https://gourl.io/images/global/styles.png", $url."#gourlvericoinprivate_key")."</td>";
 				$tmp .= "</tr>";
 					
 					
+				// h
+				$tmp .= $tr.'<th scope="row" valign="top"><label for="gourl_lang">'.__( 'Languages', GOURLPMP ).'</label></th>
+					<td>'.sprintf(__( "If you want to use GoUrl PaidMembershipsPro Bitcoin Gateway plugin in a language other than English, see the page <a href='%s'>Languages and Translations</a>", GOURLPMP ), "https://gourl.io/languages.html")."</td>";
+				$tmp .= "</tr>";
+				
+						
 				echo $tmp;
 					
 				return;
@@ -433,20 +460,25 @@ if (!function_exists('gourl_pmp_gateway_load'))
 		
 				// Security
 				// -------------
-				if (!$order_id) die('The GoUrl payment plugin was called to process a payment but could not retrieve the order details for order_id. Cannot continue!<br>File '.__FILE__.", line ".__LINE__);
-		
-				if ($order->gateway != "gourl" || ($order_user_id && $order_user_id != get_current_user_id())) return false;
-		
-				if (!class_exists('gourlclass') || !defined('GOURL') || !is_object($gourl))
+				if (!$order_id || !$order)
 				{
 					$tmp .= '<h2>' . __( 'Information', GOURLPMP ) . '</h2>' . PHP_EOL;
-					$tmp .= "<div class='pmpro_message pmpro_error'>".__( "Please try a different payment method. Admin need to install and activate wordpress plugin 'GoUrl Bitcoin Gateway' (https://gourl.io/bitcoin-wordpress-plugin.html) to accept Bitcoin/Altcoin Payments online", GOURLPMP )."</div>";
+					$tmp .= "<div class='pmpro_message pmpro_error'>".sprintf(__( 'The GoUrl payment plugin was called to process a payment but could not retrieve the order details for orderID %s. Cannot continue!', GOURLPMP ), $order_id)."</div>";
 				}
-				elseif (!$payments || !$defcoin || true === version_compare(PMPRO_VERSION, '1.8', '<') || true === version_compare(GOURL_VERSION, '1.3', '<') ||
+				elseif ($order->gateway != "gourl" || ($order_user_id && $order_user_id != get_current_user_id()))
+				{ 
+					return false;
+				}
+				elseif (!class_exists('gourlclass') || !defined('GOURL') || !is_object($gourl))
+				{
+					$tmp .= '<h2>' . __( 'Information', GOURLPMP ) . '</h2>' . PHP_EOL;
+					$tmp .= "<div class='pmpro_message pmpro_error'>".sprintf(__( "Please try a different payment method. Admin need to install and activate wordpress plugin <a href='%s'>GoUrl Bitcoin Gateway for Wordpress</a> to accept Bitcoin/Altcoin Payments online.", GOURLPMP ), "https://gourl.io/bitcoin-wordpress-plugin.html")."</div>";
+				}
+				elseif (!$payments || !$defcoin || true === version_compare(PMPRO_VERSION, '1.8.4', '<') || true === version_compare(GOURL_VERSION, '1.3', '<') ||
 						(array_key_exists($order_currency, $coin_names) && !array_key_exists($order_currency, $payments)))
 				{
 					$tmp .= '<h2>' . __( 'Information', GOURLPMP ) . '</h2>' . PHP_EOL;
-					$tmp .=  "<div class='pmpro_message pmpro_error'>".sprintf(__( 'Sorry, but there was an error processing your order. Please try a different payment method or contact us if you need assistance. (GoUrl Bitcoin Plugin not configured - %s not activated)', GOURLPMP ),(!$payments || !$defcoin?"Cryptocurrency":$coin_names[$order_currency]))."</div>";
+					$tmp .=  "<div class='pmpro_message pmpro_error'>".sprintf(__( 'Sorry, but there was an error processing your order. Please try a different payment method or contact us if you need assistance (GoUrl Bitcoin Plugin not configured / %s not activated)', GOURLPMP ),(!$payments || !$defcoin || !isset($coin_names[$order_currency])?__("Cryptocurrency", GOURLPMP):$coin_names[$order_currency]))."</div>";
 				}
 				else
 				{
@@ -474,7 +506,7 @@ if (!function_exists('gourl_pmp_gateway_load'))
 					elseif ($amount <= 0)
 					{
 						$tmp .= '<h2>' . __( 'Information', GOURLPMP ) . '</h2>' . PHP_EOL;
-						$tmp .= "<div class='pmpro_message pmpro_error'>". sprintf(__( 'This order&rsquo;s amount is &ldquo;%s&rdquo; &mdash; it cannot be paid for. Please contact us if you need assistance.', GOURLPMP ), $amount ." " . $currency)."</div>";
+						$tmp .= "<div class='pmpro_message pmpro_error'>". sprintf(__( "This order's amount is '%s' - it cannot be paid for. Please contact us if you need assistance.", GOURLPMP ), $amount ." " . $currency)."</div>";
 					}
 					else
 					{
@@ -503,7 +535,7 @@ if (!function_exists('gourl_pmp_gateway_load'))
 							// crypto payment gateway
 							$result = $gourl->cryptopayments ($plugin, $amount, $currency, $orderID, $period, $language, $coin, $affiliate_key, $userID, $iconwidth);
 		
-							if (!$result["is_paid"]) $tmp .= '<h3>' . __( 'Pay Now', GOURLPMP ) . '</h3>' . PHP_EOL;
+							if (!$result["is_paid"]) $tmp .= '<br><h3>' . __( 'Pay Now -', GOURLPMP ) . '</h3>' . PHP_EOL;
 		
 							if ($result["error"]) $tmp .= "<div class='pmpro_message pmpro_error'>".__( "Sorry, but there was an error processing your order. Please try a different payment method.", GOURLPMP )."<br/>".$result["error"]."</div>";
 							else
@@ -515,7 +547,7 @@ if (!function_exists('gourl_pmp_gateway_load'))
 								if ($result["is_paid"])
 								{
 									$tmp .= "<div align='center'>" . sprintf(__('Thank you for your membership to %s.<br>Your %s membership is now active.', GOURLPMP), get_bloginfo("name"), $current_user->membership_level->name) . "</div>";
-									$tmp .= "<br><br><div align='center'><a href=".pmpro_url("account").">".__('View Your Membership Account &rarr;', GOURLPMP)."</a>";
+									$tmp .= "<br><br><div align='center'><a href=".pmpro_url("account").">".__('View Your Membership Account', GOURLPMP)." &rarr;</a>";
 								}
 							}
 						}
@@ -667,14 +699,14 @@ if (!function_exists('gourl_pmp_gateway_load'))
 			// New Payment Received
 			if ($box_status == "cryptobox_newrecord")
 			{
-				PMProGateway_gourl::add_order_note($order_id, sprintf(__('<b>%s</b> payment received<br>%s<br>Payment id <a href="%s">%s</a>. Awaiting network confirmation...', GOURLPMP), $coinName, $amount, GOURL_ADMIN.GOURL."payments&s=payment_".$payID, $payID));
+				PMProGateway_gourl::add_order_note($order_id, sprintf(__("<b>%s</b> payment received<br>%s<br>Payment id <a href='%s'>%s</a>. Awaiting network confirmation...", GOURLPMP), $coinName, $amount, GOURL_ADMIN.GOURL."payments&s=payment_".$payID, $payID));
 			}
 		
 		
 			// Existing Payment confirmed (6+ confirmations)
 			if ($payment_details["is_confirmed"])
 			{
-				PMProGateway_gourl::add_order_note($order_id, sprintf(__('%s Payment id <a href="%s">%s</a> Confirmed', GOURLPMP), $coinName, GOURL_ADMIN.GOURL."payments&s=payment_".$payID, $payID));
+				PMProGateway_gourl::add_order_note($order_id, sprintf(__("%s Payment id <a href='%s'>%s</a> Confirmed", GOURLPMP), $coinName, GOURL_ADMIN.GOURL."payments&s=payment_".$payID, $payID));
 			}
 		
 		
@@ -726,3 +758,5 @@ if (!function_exists('gourl_pmp_gateway_load'))
 		}
 	}
 }
+  
+   
