@@ -77,7 +77,6 @@ In the search field type "GoUrl Paid Memberships Pro" and click Search Plugins. 
 3. Bitcoin Payment for Paid Memberships Pro Received Successfully
 4. Paid Memberships Pro Edit Order Page
 5. Optional - You can place your membership in Bitcoins/Altcoins directly
-6. You need to update the file confirmation.php also
 
 
 
@@ -93,5 +92,5 @@ Localisation - You can easy change/localize any text in plugin
 
 = 1.0.0 =
 Initial Release
-
- 
+  
+  
