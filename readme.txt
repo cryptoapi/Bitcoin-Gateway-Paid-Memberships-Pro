@@ -3,10 +3,10 @@ Contributors: gourl, GoUrl.io
 Plugin Name: GoUrl Paid Memberships Pro - Bitcoin Payment Gateway Addon
 Plugin URI: https://gourl.io/bitcoin-payments-paid-memberships-pro.html
 Author URI: https://gourl.io 
-Tags: paidmembershipspro, pmpro, membership, paid membership, bitcoin, bitcoins, bitcoin payments, gourl, cryptocurrency, btc, litecoin, dogecoin, paycoin, reddcoin, speedcoin, dash, potcoin, feathercoin, vertcoin, vericoin, paid memberships pro, peercoin
+Tags: paidmembershipspro, pmpro, membership, paid membership, bitcoin, bitcoins, bitcoin payments, gourl, cryptocurrency, btc, litecoin, dogecoin, darkcoin, dash, speedcoin, vertcoin, reddcoin, feathercoin, vericoin, potcoin, paycoin, monetaryunit, peercoin, paid memberships pro
 Requires at least: 3.5
-Tested up to: 4.2
-Stable Tag: 1.1.1
+Tested up to: 4.3
+Stable Tag: 1.1.2
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ Wordpress Plugin for Paid Memberships Pro Features -
 
 * 100% Free Open Source Plugin on [Github.com](https://github.com/cryptoapi/Bitcoin-Gateway-Paid-Memberships-Pro)
 * Provides a Cryptocurrency Payment Gateway for [Paid Memberships Pro 1.8 or higher](https://wordpress.org/plugins/paid-memberships-pro/)
-* Accept Bitcoin, Litecoin, Paycoin, Dogecoin, Dash, Speedcoin, Reddcoin, Potcoin, Feathercoin, Vertcoin, Vericoin, Peercoin payments in Paid Memberships Pro
+* Accept Bitcoin, Litecoin, Paycoin, Dogecoin, Dash, Speedcoin, Reddcoin, Potcoin, Feathercoin, Vertcoin, Vericoin, Peercoin, MonetaryUnit payments in Paid Memberships Pro
 * No Monthly Fee, Transaction Fee from 0%
 * Direct Integration on your website, no external payment pages opens (as other payment gateways offer)
 * You will see the bitcoin/altcoin payment statistics in one common table on your website. 
@@ -83,6 +83,9 @@ In the search field type "GoUrl Paid Memberships Pro" and click Search Plugins. 
 
 == Changelog == 
 
+= 1.1.2 =
+Add MonetaryUnit [MUE] cryptocurrency
+
 = 1.1.1 =
 Localisation - You can easy change/localize any text in plugin
 
@@ -92,5 +95,5 @@ Localisation - You can easy change/localize any text in plugin
 
 = 1.0.0 =
 Initial Release
-  
-  
+    
+   
