@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GoUrl Paid Memberships Pro - Bitcoin Payment Gateway "
 "Addon\n"
-"POT-Creation-Date: 2015-07-08 16:20-0000\n"
-"PO-Revision-Date: 2015-07-08 16:20-0000\n"
+"POT-Creation-Date: 2015-12-12 14:36-0000\n"
+"PO-Revision-Date: 2015-12-12 14:36-0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -20,31 +20,31 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: gourl_paidmembershipspro.php:110
+#: gourl_paidmembershipspro.php:113
 msgid "Settings"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:124
+#: gourl_paidmembershipspro.php:127
 msgid "GoUrl Bitcoin/Altcoins"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:171 gourl_paidmembershipspro.php:481
+#: gourl_paidmembershipspro.php:174 gourl_paidmembershipspro.php:583
 msgid "Cryptocurrency"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:174
+#: gourl_paidmembershipspro.php:177
 msgid "Bitcoin"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:192
+#: gourl_paidmembershipspro.php:195
 msgid "Plugin Homepage"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:192
+#: gourl_paidmembershipspro.php:195
 msgid "screenshots"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:193
+#: gourl_paidmembershipspro.php:196
 msgid "Plugin on Github - 100% Free Open Source"
 msgstr ""
 
@@ -53,7 +53,7 @@ msgstr ""
 # --------------
 # English - .. <a href='%s'>Main Plugin</a> ..
 # French - .. <a href='%s'>Plugin Principale</a> ..
-#: gourl_paidmembershipspro.php:199
+#: gourl_paidmembershipspro.php:202
 #, php-format
 msgid ""
 "Your GoUrl Bitcoin Gateway <a href='%s'>Main Plugin</a> version is too old. "
@@ -61,22 +61,23 @@ msgid ""
 "version."
 msgstr ""
 
-#: gourl_paidmembershipspro.php:200 gourl_paidmembershipspro.php:230
-#: gourl_paidmembershipspro.php:465 gourl_paidmembershipspro.php:474
-#: gourl_paidmembershipspro.php:480 gourl_paidmembershipspro.php:501
-#: gourl_paidmembershipspro.php:508 gourl_paidmembershipspro.php:522
+#: gourl_paidmembershipspro.php:203 gourl_paidmembershipspro.php:233
+#: gourl_paidmembershipspro.php:515 gourl_paidmembershipspro.php:567
+#: gourl_paidmembershipspro.php:576 gourl_paidmembershipspro.php:582
+#: gourl_paidmembershipspro.php:603 gourl_paidmembershipspro.php:610
+#: gourl_paidmembershipspro.php:624
 msgid "Information"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:200 gourl_paidmembershipspro.php:230
+#: gourl_paidmembershipspro.php:203 gourl_paidmembershipspro.php:233
 msgid "Main Plugin Homepage"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:201 gourl_paidmembershipspro.php:231
+#: gourl_paidmembershipspro.php:204 gourl_paidmembershipspro.php:234
 msgid "WordPress.org Plugin Page"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:205
+#: gourl_paidmembershipspro.php:208
 #, php-format
 msgid ""
 "Your PaidMembershipsPro version is too old. The GoUrl payment plugin "
@@ -84,22 +85,22 @@ msgid ""
 "href='%s'>latest version</a>."
 msgstr ""
 
-#: gourl_paidmembershipspro.php:218
+#: gourl_paidmembershipspro.php:221
 msgid "- Please setup -"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:226
+#: gourl_paidmembershipspro.php:229
 msgid "Please install GoUrl Bitcoin Gateway WP Plugin"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:229
+#: gourl_paidmembershipspro.php:232
 #, php-format
 msgid ""
 "You need to install GoUrl Bitcoin Gateway Main Plugin also. Go to - <a "
 "href='%s'>Automatic installation</a> or <a href='%s'>Manual</a>."
 msgstr ""
 
-#: gourl_paidmembershipspro.php:235
+#: gourl_paidmembershipspro.php:238
 msgid ""
 "Secure payments with virtual currency. <a target='_blank' href='https://"
 "bitcoin.org/'>What is Bitcoin?</a>"
@@ -110,12 +111,12 @@ msgstr ""
 # --------------
 # English: Accept %s Payments ...
 # French: Acceptons %s les paiements ...
-#: gourl_paidmembershipspro.php:236
+#: gourl_paidmembershipspro.php:239
 #, php-format
 msgid "Accept %s payments online in PaidMembershipsPro."
 msgstr ""
 
-#: gourl_paidmembershipspro.php:237
+#: gourl_paidmembershipspro.php:240
 #, php-format
 msgid ""
 "If you use multiple websites online, please create separate <a "
@@ -124,33 +125,33 @@ msgid ""
 "Payment Box with the same public/private keys on your different websites."
 msgstr ""
 
-#: gourl_paidmembershipspro.php:244
+#: gourl_paidmembershipspro.php:247
 msgid "Gourl Bitcoin/Altcoin Settings"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:258
+#: gourl_paidmembershipspro.php:261
 msgid "PaymentBox Default Coin"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:262
+#: gourl_paidmembershipspro.php:265
 #, php-format
 msgid ""
 "Default Coin in Crypto Payment Box. Activated Payments : <a href='%s'>%s</a>"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:271
+#: gourl_paidmembershipspro.php:274
 msgid "PaymentBox Language"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:275
+#: gourl_paidmembershipspro.php:278
 msgid "Default Crypto Payment Box Localisation"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:283
+#: gourl_paidmembershipspro.php:286
 msgid "Exchange Rate Multiplier"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:285
+#: gourl_paidmembershipspro.php:288
 msgid ""
 "The system uses the multiplier rate with today LIVE cryptocurrency exchange "
 "rates (which are updated every 30 minutes) when the transaction is "
@@ -160,32 +161,32 @@ msgid ""
 "bitcoin/altcoins. Default: 1.00"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:294
+#: gourl_paidmembershipspro.php:297
 msgid "Icons Size"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:296
+#: gourl_paidmembershipspro.php:299
 msgid ""
 "Cryptocoin icons size in 'Select Payment Method' that the customer will see "
 "on your checkout. Default 60px. Allowed: 30..250px"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:301
+#: gourl_paidmembershipspro.php:304
 msgid "PaymentBox Style"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:302
+#: gourl_paidmembershipspro.php:305
 #, php-format
 msgid ""
 "Payment Box <a href='%s'>sizes</a> and border <a href='%s'>shadow</a> you "
 "can change <a href='%s'>here &#187;</a>"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:307
+#: gourl_paidmembershipspro.php:310
 msgid "Languages"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:308
+#: gourl_paidmembershipspro.php:311
 #, php-format
 msgid ""
 "If you want to use GoUrl PaidMembershipsPro Bitcoin Gateway plugin in a "
@@ -193,43 +194,45 @@ msgid ""
 "Translations</a>"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:358
+#: gourl_paidmembershipspro.php:371 gourl_paidmembershipspro.php:446
 msgid "GoUrl Bitcoin/Altcoin"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:365
+#: gourl_paidmembershipspro.php:454
 msgid "Guest"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:367
+#: gourl_paidmembershipspro.php:455
 #, php-format
-msgid "Order Created by <a>%s<br>Awaiting Cryptocurrency Payment ..."
+msgid ""
+"Order Created by %s <br>Membership - %s <br>Awaiting Cryptocurrency Payment "
+"- %s <br>Invoice <a href='%s'>#%s</a>"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:398
+#: gourl_paidmembershipspro.php:487
 msgid "Account"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:399
+#: gourl_paidmembershipspro.php:488
 msgid "Order"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:400
+#: gourl_paidmembershipspro.php:489
 msgid "Membership Level"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:401
+#: gourl_paidmembershipspro.php:490
 msgid "Amount"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:466
+#: gourl_paidmembershipspro.php:516 gourl_paidmembershipspro.php:568
 #, php-format
 msgid ""
 "The GoUrl payment plugin was called to process a payment but could not "
 "retrieve the order details for orderID %s. Cannot continue!"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:475
+#: gourl_paidmembershipspro.php:577
 #, php-format
 msgid ""
 "Please try a different payment method. Admin need to install and activate "
@@ -237,7 +240,7 @@ msgid ""
 "accept Bitcoin/Altcoin Payments online."
 msgstr ""
 
-#: gourl_paidmembershipspro.php:481
+#: gourl_paidmembershipspro.php:583
 #, php-format
 msgid ""
 "Sorry, but there was an error processing your order. Please try a different "
@@ -245,20 +248,20 @@ msgid ""
 "not configured / %s not activated)"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:503
+#: gourl_paidmembershipspro.php:605
 msgid ""
 "You need first to login or register on the website to make Bitcoin/Altcoin "
 "Payments"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:509
+#: gourl_paidmembershipspro.php:611
 #, php-format
 msgid ""
 "This order's amount is '%s' - it cannot be paid for. Please contact us if "
 "you need assistance."
 msgstr ""
 
-#: gourl_paidmembershipspro.php:523
+#: gourl_paidmembershipspro.php:625
 #, php-format
 msgid ""
 "Sorry, but there was an error processing your order. Please try later or use "
@@ -266,46 +269,55 @@ msgid ""
 "Google Finance"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:538
+#: gourl_paidmembershipspro.php:644
+#, php-format
+msgid "Free Trial already used on %s"
+msgstr ""
+
+#: gourl_paidmembershipspro.php:646
 msgid "Pay Now -"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:540
+#: gourl_paidmembershipspro.php:649
 msgid ""
 "Sorry, but there was an error processing your order. Please try a different "
 "payment method."
 msgstr ""
 
-#: gourl_paidmembershipspro.php:549
+#: gourl_paidmembershipspro.php:661
+msgid "Thank you for your membership."
+msgstr ""
+
+#: gourl_paidmembershipspro.php:663
 #, php-format
 msgid ""
 "Thank you for your membership to %s.<br>Your %s membership is now active."
 msgstr ""
 
-#: gourl_paidmembershipspro.php:550
+#: gourl_paidmembershipspro.php:666
 msgid "View Your Membership Account"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:635
+#: gourl_paidmembershipspro.php:759
 msgid "Payment Log"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:696
+#: gourl_paidmembershipspro.php:822
 msgid "Yes"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:696
+#: gourl_paidmembershipspro.php:822
 msgid "No"
 msgstr ""
 
-#: gourl_paidmembershipspro.php:702
+#: gourl_paidmembershipspro.php:833
 #, php-format
 msgid ""
-"<b>%s</b> payment received<br>%s<br>Payment id <a href='%s'>%s</a>. Awaiting "
-"network confirmation..."
+"<b>%s</b> payment received <br>%s <br>Payment id <a href='%s'>#%s</a>. "
+"Awaiting network confirmation..."
 msgstr ""
 
-#: gourl_paidmembershipspro.php:709
+#: gourl_paidmembershipspro.php:840
 #, php-format
-msgid "%s Payment id <a href='%s'>%s</a> Confirmed"
+msgid "%s Payment id <a href='%s'>#%s</a> Confirmed"
 msgstr ""

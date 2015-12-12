@@ -3,7 +3,7 @@
 Plugin Name: 		GoUrl Paid Memberships Pro - Bitcoin Payment Gateway Addon
 Plugin URI: 		https://gourl.io/bitcoin-payments-paid-memberships-pro.html
 Description: 		Provides a <a href="https://gourl.io">GoUrl.io</a> Bitcoin/Altcoin Payment Gateway for <a href="https://wordpress.org/plugins/paid-memberships-pro/">Paid Memberships Pro 1.8+</a>. Direct Integration on your website, no external payment pages opens (as other payment gateways offer). Accept Bitcoin, Litecoin, Paycoin, Dogecoin, Dash, Speedcoin, Reddcoin, Potcoin, Feathercoin, Vertcoin, Vericoin, Peercoin, MonetaryUnit payments online. You will see the bitcoin/altcoin payment statistics in one common table on your website. No Chargebacks, Global, Secure. All in automatic mode.
-Version: 			1.1.2
+Version: 			1.1.3
 Author: 			GoUrl.io
 Author URI: 		https://gourl.io
 License: 			GPLv2
@@ -50,6 +50,9 @@ if (!function_exists('gourl_pmp_gateway_load'))
 		
 		// custom confirmation page
 		add_filter('pmpro_pages_shortcode_confirmation', array('PMProGateway_gourl', 'pmpro_pages_shortcode_confirmation'), 20, 1);
+		
+		// custom invoice
+		add_filter('pmpro_invoice_bullets_bottom', array('PMProGateway_gourl', 'pmpro_invoice_bullets_bottom'), 20, 1);
 		
 		// plugin links
 		add_filter('plugin_action_links', array('PMProGateway_gourl', 'plugin_action_links'), 10, 2 );
@@ -314,6 +317,7 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				return;
 			}
 		
+			
 		
 		
 			/**
@@ -339,32 +343,116 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				return $fields;
 			}
 		
+			
 		
-		
+
 			/**
-			 * 1.10 Redirect to bitcoin/altcoin payment page
+			 * 1.10 Process checkout.
+			 *
+			 */
+			function process(&$order)
+			{
+			
+				return true;
+			}
+			
+			
+				
+			
+			/**
+			 * 1.11 Redirect to bitcoin/altcoin payment page
 			 */
 			public static function pmpro_checkout_before_change_membership_level($user_id, $order)
 			{
+				global $pmpro_currency;
+				
 				if (!$order || $order->gateway != "gourl") return true;
+				
+				$order->payment_type = __('GoUrl Bitcoin/Altcoin', GOURLPMP);
+				
+				// is it initial payment ?
+				if(!get_option(GOURL."PMPRO_INIT_".$user_id."_".$order->membership_level->id))
+				{
+					// Free
+					if (floatval($order->subtotal) == 0)
+					{
+						// Initial Free Payment
+						update_option(GOURL."PMPRO_INIT_".$user_id."_".$order->membership_level->id, date("m F Y"));
+						
+						$order->ProfileStartDate 		= date("Y-m-d") . "T0:0:0";
+						$order->status 					= "success";
+						
+						if (floatval($order->PaymentAmount) > 0) 
+						{
+							// Free Trial Payment
+							$order->TrialBillingCycles ++;
+							$order->payment_transaction_id = "#FREETRIAL";
+							
+							update_option(GOURL."PMPRO_FREE_".$user_id."_".$order->membership_level->id, date("m F Y"));
+						}
+						else
+						{
+							$order->TotalBillingCycles++;
+							$order->payment_transaction_id = "#FREE";
+						}
+
+						if (is_numeric($order->membership_level->expiration_number) && $order->membership_level->expiration_number > 0 && $order->membership_level->expiration_period) $order->subscription_transaction_id = $order->membership_level->expiration_number." ".$order->membership_level->expiration_period;
+						
+						return true;
+					}
+					else
+					{
+						$order->total = $order->subtotal;
+					}
+				}
 					
+				// second, third, etc payments ....
+				else
+				{
+					
+					if (floatval($order->subtotal) == 0 && floatval($order->PaymentAmount) == 0)
+					{
+						$order->status = "success";
+						$order->TotalBillingCycles++;
+						$order->payment_transaction_id = "#FREE";
+												
+						if (is_numeric($order->membership_level->expiration_number) && $order->membership_level->expiration_number > 0 && $order->membership_level->expiration_period) $order->subscription_transaction_id = $order->membership_level->expiration_number." ".$order->membership_level->expiration_period;
+						
+						return true;
+						
+					}
+					elseif (floatval($order->subtotal) != floatval($order->PaymentAmount))
+					{
+						if (floatval($order->PaymentAmount) > 0)
+						{
+							$order->subtotal = $order->PaymentAmount;
+							$order->total 	 = $order->PaymentAmount;
+						}
+						else $order->total 	 = $order->subtotal; 	
+					}
+					else  $order->total 	 = $order->subtotal;
+				}
+
+				
+
+
 				// check for previous pending orders
 				$morder = new MemberOrder();
 				$morder->getLastMemberOrder(get_current_user_id(), apply_filters("pmpro_confirmation_order_status", array("pending")));
-				
-				if ($morder->gateway != "gourl" || $morder->subtotal != $order->subtotal || $morder->membership_id != $order->membership_id || strtotime($order->ProfileStartDate) < (strtotime("now") - 48*60*60) || 
-					(isset($order->membership_level->expiration_number) && $order->membership_level->expiration_number > 0 && $order->membership_level->expiration_period && ($order->membership_level->expiration_number." ".$order->membership_level->expiration_period) != $morder->subscription_transaction_id))
+
+				if ($morder->gateway != "gourl" || $morder->total != $order->total || $morder->membership_id != $order->membership_id || strtotime($order->ProfileStartDate) < (strtotime("now") - 24*60*60) || 
+					(isset($order->membership_level->expiration_number) && is_numeric($order->membership_level->expiration_number) && $order->membership_level->expiration_number > 0 && $order->membership_level->expiration_period && ($order->membership_level->expiration_number." ".$order->membership_level->expiration_period) != $morder->subscription_transaction_id))
 				{
 					$order->payment_type 	= __('GoUrl Bitcoin/Altcoin', GOURLPMP);
 					$order->gateway 	 	= "gourl";
 					$order->user_id 	 	= get_current_user_id();
 					$order->status 	 	 	= "pending";
-					if ($order->membership_level->expiration_number > 0 && $order->membership_level->expiration_period) $order->subscription_transaction_id = $order->membership_level->expiration_number." ".$order->membership_level->expiration_period;
+					if (is_numeric($order->membership_level->expiration_number) && $order->membership_level->expiration_number > 0 && $order->membership_level->expiration_period) $order->subscription_transaction_id = $order->membership_level->expiration_number." ".$order->membership_level->expiration_period;
 					$order->saveOrder();
-						
+					
+					
 					$user = (!get_current_user_id()) ? __('Guest', GOURLPMP) : "<a href='".admin_url("user-edit.php?user_id=".get_current_user_id())."'>user".get_current_user_id()."</a>";
-		
-					self::add_order_note($order->id, sprintf(__('Order Created by <a>%s<br>Awaiting Cryptocurrency Payment ...', GOURLPMP ), $user));
+					self::add_order_note($order->id, sprintf(__("Order Created by %s <br>Membership - %s <br>Awaiting Cryptocurrency Payment - %s <br>Invoice <a href='%s'>#%s</a>", GOURLPMP ), $user, $order->membership_level->name.", ".$order->membership_level->expiration_number." ".$order->membership_level->expiration_period, $order->total . " " . $pmpro_currency, pmpro_url("invoice", "?invoice=" . $order->code), $order->code));
 				}
 
 				wp_redirect(pmpro_url("confirmation"));
@@ -374,9 +462,10 @@ if (!function_exists('gourl_pmp_gateway_load'))
 			}
 		
 		
+			
 		
 			/**
-			 * 1.11 Custom confirmation page
+			 * 1.12 Custom confirmation page
 			 *
 			 */
 			public static function pmpro_pages_shortcode_confirmation($content)
@@ -410,14 +499,27 @@ if (!function_exists('gourl_pmp_gateway_load'))
 			}
 		
 		
+			
+			
 			/**
-			 *  1.12. GoUrl Payment Box
-				*/
-			public static function pmpro_gourl_cryptocoin_payment ($order)
+			 *  1.13. GoUrl Payment Box
+			 */
+			public static function pmpro_gourl_cryptocoin_payment ($order, $invoice = false)
 			{
 				global $gourl, $pmpro_currency, $current_user, $wpdb;
 		
 				$tmp = "";
+				
+				if (!$order)
+				{
+					$tmp .= '<h2>' . __( 'Information', GOURLPMP ) . '</h2>' . PHP_EOL;
+					$tmp .= "<div class='pmpro_message pmpro_error'>".sprintf(__( 'The GoUrl payment plugin was called to process a payment but could not retrieve the order details for orderID %s. Cannot continue!', GOURLPMP ), $order_id)."</div>";
+					
+					return $tmp;
+				}
+				
+				if ($order->gateway != "gourl") return false;
+				
 		
 				// Initialize
 				// ------------------------
@@ -460,12 +562,12 @@ if (!function_exists('gourl_pmp_gateway_load'))
 		
 				// Security
 				// -------------
-				if (!$order_id || !$order)
+				if (!$order_id)
 				{
 					$tmp .= '<h2>' . __( 'Information', GOURLPMP ) . '</h2>' . PHP_EOL;
 					$tmp .= "<div class='pmpro_message pmpro_error'>".sprintf(__( 'The GoUrl payment plugin was called to process a payment but could not retrieve the order details for orderID %s. Cannot continue!', GOURLPMP ), $order_id)."</div>";
 				}
-				elseif ($order->gateway != "gourl" || ($order_user_id && $order_user_id != get_current_user_id()))
+				elseif ($order_user_id && $order_user_id != get_current_user_id() && !current_user_can('manage_options'))
 				{ 
 					return false;
 				}
@@ -534,8 +636,15 @@ if (!function_exists('gourl_pmp_gateway_load'))
 						{
 							// crypto payment gateway
 							$result = $gourl->cryptopayments ($plugin, $amount, $currency, $orderID, $period, $language, $coin, $affiliate_key, $userID, $iconwidth);
-		
-							if (!$result["is_paid"]) $tmp .= '<br><h3>' . __( 'Pay Now -', GOURLPMP ) . '</h3>' . PHP_EOL;
+
+								
+							if (!$result["is_paid"])
+							{ 
+								// trial used before
+								if ($userID != "guest" && get_option(GOURL."PMPRO_FREE_".$userID."_".$order->membership_id)) $tmp .= ($invoice?"<br>":"")."<i>" . sprintf(__('Free Trial already used on %s', GOURLPMP ), get_option(GOURL."PMPRO_FREE_".$userID."_".$order->membership_id)) . ".</i>";
+								
+								$tmp .= '<br><h3>' . __( 'Pay Now -', GOURLPMP ) . '</h3>' . PHP_EOL;
+							}
 		
 							if ($result["error"]) $tmp .= "<div class='pmpro_message pmpro_error'>".__( "Sorry, but there was an error processing your order. Please try a different payment method.", GOURLPMP )."<br/>".$result["error"]."</div>";
 							else
@@ -543,11 +652,18 @@ if (!function_exists('gourl_pmp_gateway_load'))
 								// display payment box or successful payment result
 								$tmp .= $result["html_payment_box"];
 		
-								// payment received
-								if ($result["is_paid"])
-								{
-									$tmp .= "<div align='center'>" . sprintf(__('Thank you for your membership to %s.<br>Your %s membership is now active.', GOURLPMP), get_bloginfo("name"), $current_user->membership_level->name) . "</div>";
-									$tmp .= "<br><br><div align='center'><a href=".pmpro_url("account").">".__('View Your Membership Account', GOURLPMP)." &rarr;</a>";
+								if ($order_user_id == get_current_user_id())
+								{	
+									// payment received
+									if ($result["is_paid"])
+									{
+										if ($invoice)
+											$tmp .= "<div align='center'>" . __('Thank you for your membership.', GOURLPMP) . "</div>";
+										else
+											$tmp .= "<div align='center'>" . sprintf(__('Thank you for your membership to %s.<br>Your %s membership is now active.', GOURLPMP), get_bloginfo("name"), $current_user->membership_level->name) . "</div>";
+									}
+									
+									if (!$invoice) $tmp .= "<br><br><div align='center'><a href=".pmpro_url("account").">".__('View Your Membership Account', GOURLPMP)." &rarr;</a>";
 								}
 							}
 						}
@@ -558,26 +674,30 @@ if (!function_exists('gourl_pmp_gateway_load'))
 		
 				return $tmp;
 			}
+				
 		
 		
-		
-		
-		
+			
 			/**
-			 * 1.13 Process checkout.
+			 * 1.14 Custom invoice
 			 *
 			 */
-			function process(&$order)
+			public static function pmpro_invoice_bullets_bottom($order)
 			{
-		
+				if (empty($order) || $order->gateway != "gourl" || $order->total == 0) return true;
+				
+				
+				echo self::pmpro_gourl_cryptocoin_payment($order, true);
+				
+				
 				return true;
 			}
+			
 		
 		
-		
-		
+			
 			/**
-			 * 1.14 Show payment log on order details page
+			 * 1.15 Show payment log on order details page
 			 */
 			public static function pmpro_after_order_settings($order)
 			{
@@ -600,9 +720,11 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				return true;
 			}
 		
+			
 		
+			
 			/**
-			 * 1.15 Save payment log
+			 * 1.16 Save payment log
 			 */
 			public static function add_order_note($order_id, $notes)
 			{
@@ -617,9 +739,11 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				return true;
 			}
 		
+			
+			
 		
 			/**
-			 * 1.16 Display payment log
+			 * 1.17 Display payment log
 			 */
 			public static function display_order_notes()
 			{
@@ -640,9 +764,11 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				return $tmp;
 			}
 		
+			
+			
 		
 			/**
-			 * 1.17
+			 * 1.18
 			 */
 			public static function sel($val1, $val2)
 			{
@@ -695,26 +821,28 @@ if (!function_exists('gourl_pmp_gateway_load'))
 			$trID		= $payment_details["tx"];
 			$confirmed	= ($payment_details["is_confirmed"]) ? __('Yes', GOURLPMP) : __('No', GOURLPMP);
 		
-		
+
+			$order = new MemberOrder();
+			$order->getMemberOrderByID($order_id);
+				
+			
 			// New Payment Received
 			if ($box_status == "cryptobox_newrecord")
 			{
-				PMProGateway_gourl::add_order_note($order_id, sprintf(__("<b>%s</b> payment received<br>%s<br>Payment id <a href='%s'>%s</a>. Awaiting network confirmation...", GOURLPMP), $coinName, $amount, GOURL_ADMIN.GOURL."payments&s=payment_".$payID, $payID));
+				update_option(GOURL."PMPRO_INIT_".$user_id."_".$order->membership_id, date("m F Y"));
+				PMProGateway_gourl::add_order_note($order_id, sprintf(__("<b>%s</b> payment received <br>%s <br>Payment id <a href='%s'>#%s</a>. Awaiting network confirmation...", GOURLPMP), $coinName, $amount, GOURL_ADMIN.GOURL."payments&s=payment_".$payID, $payID));
 			}
 		
 		
 			// Existing Payment confirmed (6+ confirmations)
 			if ($payment_details["is_confirmed"])
 			{
-				PMProGateway_gourl::add_order_note($order_id, sprintf(__("%s Payment id <a href='%s'>%s</a> Confirmed", GOURLPMP), $coinName, GOURL_ADMIN.GOURL."payments&s=payment_".$payID, $payID));
+				PMProGateway_gourl::add_order_note($order_id, sprintf(__("%s Payment id <a href='%s'>#%s</a> Confirmed", GOURLPMP), $coinName, GOURL_ADMIN.GOURL."payments&s=payment_".$payID, $payID));
 			}
 		
 		
 			// Update User Membership
-			$order = new MemberOrder();
-			$order->getMemberOrderByID($order_id);
-		
-			if (!empty($order) && $order->gateway == "gourl" && $order->status != "success")
+			if (!empty($order) && $order->gateway == "gourl" && in_array($order->status, array("pending", "review", "token")))
 			{
 				$pmpro_level = $wpdb->get_row("SELECT * FROM $wpdb->pmpro_membership_levels WHERE id = '" . (int)$order->membership_id . "' LIMIT 1");
 					
@@ -747,16 +875,15 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				if (pmpro_changeMembershipLevel($custom_level, $user_id, 'changed'))
 				{
 					$order->status 							= "success";
-					$order->subscription_transaction_id 	= "";
 					$order->membership_id 					= $pmpro_level->id;
-					$order->payment_transaction_id 			= $coinName." #".$payID;
+					$order->payment_transaction_id 			= strtoupper($coinName.$payID);
 					$order->saveOrder();
 				}
 			}
 
-			return true;
+			return true;    
 		}
-	}
+	} 
 }
   
-   
+  
