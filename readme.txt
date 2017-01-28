@@ -5,8 +5,8 @@ Plugin URI: https://gourl.io/bitcoin-payments-paid-memberships-pro.html
 Author URI: https://gourl.io 
 Tags: paidmembershipspro, pmpro, membership, paid membership, bitcoin, bitcoins, bitcoin payments, gourl, cryptocurrency, btc, litecoin, dogecoin, darkcoin, dash, speedcoin, vertcoin, reddcoin, feathercoin, vericoin, potcoin, paycoin, monetaryunit, peercoin, paid memberships pro
 Requires at least: 3.5
-Tested up to: 4.4
-Stable Tag: 1.1.3
+Tested up to: 4.8
+Stable Tag: 1.1.4
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,6 +22,7 @@ Wordpress Plugin for Paid Memberships Pro Features -
 
 * 100% Free Open Source Plugin on [Github.com](https://github.com/cryptoapi/Bitcoin-Gateway-Paid-Memberships-Pro)
 * Provides a Cryptocurrency Payment Gateway for [Paid Memberships Pro 1.8 or higher](https://wordpress.org/plugins/paid-memberships-pro/)
+* Free Trial Membership and [Bitcoin Recurring Subscription](http://gourl.io/images/pmpro/screenshot-6.png)
 * Accept Bitcoin, Litecoin, Paycoin, Dogecoin, Dash, Speedcoin, Reddcoin, Potcoin, Feathercoin, Vertcoin, Vericoin, Peercoin, MonetaryUnit payments in Paid Memberships Pro
 * No Monthly Fee, Transaction Fee from 0%
 * Direct Integration on your website, no external payment pages opens (as other payment gateways offer)
@@ -77,14 +78,19 @@ In the search field type "GoUrl Paid Memberships Pro" and click Search Plugins. 
 3. Bitcoin Payment for Paid Memberships Pro Received Successfully
 4. Paid Memberships Pro Edit Order Page
 5. Optional - You can place your membership in Bitcoins/Altcoins directly
+6. Free Trial Membership and Bitcoin Recurring Subscription
+7. Multiple gateways (Paypal, Stripe, etc + GoUrl Bitcoin/Altcoins)
 
 
 
 
 == Changelog == 
 
+= 1.1.4 =
+Support multiple gateways (Paypal, Stripe, etc + GoUrl Bitcoin/Altcoins)
+
 = 1.1.3 =
-Supports free trial membership
+Support free trial membership
 
 = 1.1.2 =
 Add MonetaryUnit [MUE] cryptocurrency
@@ -98,5 +104,5 @@ Localisation - You can easy change/localize any text in plugin
 
 = 1.0.0 =
 Initial Release
-  
+    
    
