@@ -3,14 +3,14 @@ Contributors: gourl, GoUrl.io
 Plugin Name: GoUrl Paid Memberships Pro - Bitcoin Payment Gateway Addon
 Plugin URI: https://gourl.io/bitcoin-payments-paid-memberships-pro.html
 Author URI: https://gourl.io 
-Tags: paidmembershipspro, pmpro, membership, paid membership, bitcoin, bitcoins, bitcoin payments, gourl, cryptocurrency, btc, litecoin, dogecoin, darkcoin, dash, speedcoin, vertcoin, reddcoin, feathercoin, vericoin, potcoin, paycoin, monetaryunit, peercoin, paid memberships pro
+Tags: paidmembershipspro, pmpro, membership, paid membership, bitcoin, bitcoincash, bitcoin cash, bitcoins, bitcoin payments, gourl, cryptocurrency, btc, litecoin, dogecoin, dash, speedcoin, vertcoin, reddcoin, feathercoin, potcoin, monetaryunit, peercoin, paid memberships pro
 Requires at least: 3.5
-Tested up to: 4.8
-Stable Tag: 1.1.4
+Tested up to: 4.9
+Stable Tag: 1.1.5
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Provides Bitcoin Payment Gateway for Paid Memberships Pro 1.8+ or higher. Accept Bitcoin, Litecoin, Dogecoin, Paycoin, etc Payments on Your Site
+Provides Bitcoin Payment Gateway for Paid Memberships Pro 1.8+ or higher. Accept Bitcoin, Bitcoin Cash, Litecoin, Dogecoin, Dash, etc Payments on Your Site
 
 
 
@@ -23,7 +23,7 @@ Wordpress Plugin for Paid Memberships Pro Features -
 * 100% Free Open Source Plugin on [Github.com](https://github.com/cryptoapi/Bitcoin-Gateway-Paid-Memberships-Pro)
 * Provides a Cryptocurrency Payment Gateway for [Paid Memberships Pro 1.8 or higher](https://wordpress.org/plugins/paid-memberships-pro/)
 * Free Trial Membership and [Bitcoin Recurring Subscription](http://gourl.io/images/pmpro/screenshot-6.png)
-* Accept Bitcoin, Litecoin, Paycoin, Dogecoin, Dash, Speedcoin, Reddcoin, Potcoin, Feathercoin, Vertcoin, Vericoin, Peercoin, MonetaryUnit payments in Paid Memberships Pro
+* Accept Bitcoin, BitcoinCash, Litecoin, Dash, Dogecoin, Speedcoin, Reddcoin, Potcoin, Feathercoin, Vertcoin, Peercoin, MonetaryUnit payments in Paid Memberships Pro
 * No Monthly Fee, Transaction Fee from 0%
 * Direct Integration on your website, no external payment pages opens (as other payment gateways offer)
 * You will see the bitcoin/altcoin payment statistics in one common table on your website. 
@@ -78,13 +78,16 @@ In the search field type "GoUrl Paid Memberships Pro" and click Search Plugins. 
 3. Bitcoin Payment for Paid Memberships Pro Received Successfully
 4. Paid Memberships Pro Edit Order Page
 5. Optional - You can place your membership in Bitcoins/Altcoins directly
-6. Free Trial Membership and Bitcoin Recurring Subscription
+6. Optional Free or Reduced-price Trial Period in Paid Memberships Pro with Bitcoins
 7. Multiple gateways (Paypal, Stripe, etc + GoUrl Bitcoin/Altcoins)
 
 
 
 
 == Changelog == 
+
+= 1.1.5 =
+* Added Bitcoin Cash (BCH / BCC)
 
 = 1.1.4 =
 Support multiple gateways (Paypal, Stripe, etc + GoUrl Bitcoin/Altcoins)
@@ -104,5 +107,5 @@ Localisation - You can easy change/localize any text in plugin
 
 = 1.0.0 =
 Initial Release
-    
+ 
    
