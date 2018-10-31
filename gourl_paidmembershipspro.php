@@ -539,6 +539,8 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				$_SESSION['gourl_pmp_orderid'] = $order->id; 
 				$_SESSION['gourl_pmp_orderdt'] = ($enddate == "NULL") ? __('NO EXPIRY', GOURLPMP) : date("d M Y", $new_startdate) . " - " . date("d M Y", strtotime(trim($enddate, "'")));
 
+				do_action( 'pmpro_before_send_to_gourl', $user_id, $morder );
+
 				wp_redirect(pmpro_url("confirmation"));
 				die();
 		
