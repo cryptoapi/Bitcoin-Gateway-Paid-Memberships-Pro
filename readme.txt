@@ -5,8 +5,8 @@ Plugin URI: https://gourl.io/bitcoin-payments-paid-memberships-pro.html
 Author URI: https://gourl.io 
 Tags: paidmembershipspro, pmpro, membership, paid membership, bitcoin, bitcoincash, bitcoin cash, bitcoins, bitcoin payments, gourl, cryptocurrency, btc, litecoin, dogecoin, dash, speedcoin, vertcoin, reddcoin, feathercoin, potcoin, monetaryunit, peercoin, paid memberships pro
 Requires at least: 3.5
-Tested up to: 4.9
-Stable Tag: 1.1.6
+Tested up to: 5.0
+Stable Tag: 1.1.7
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,9 @@ In the search field type "GoUrl Paid Memberships Pro" and click Search Plugins. 
 
 
 == Changelog == 
+
+= 1.1.7 =
+Support Wordpress 5.0
 
 = 1.1.6 =
 Minor updates

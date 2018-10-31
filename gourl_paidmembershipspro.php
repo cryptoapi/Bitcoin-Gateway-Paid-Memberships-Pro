@@ -3,7 +3,7 @@
 Plugin Name: 		GoUrl Paid Memberships Pro - Bitcoin Payment Gateway Addon
 Plugin URI: 		https://gourl.io/bitcoin-payments-paid-memberships-pro.html
 Description: 		Provides a <a href="https://gourl.io">GoUrl.io</a> Bitcoin/Altcoin Payment Gateway for <a href="https://wordpress.org/plugins/paid-memberships-pro/">Paid Memberships Pro 1.8+</a>. Direct Integration on your website, no external payment pages opens (as other payment gateways offer). Accept Bitcoin, BitcoinCash, Litecoin, Dash, Dogecoin, Speedcoin, Reddcoin, Potcoin, Feathercoin, Vertcoin, Peercoin, MonetaryUnit payments online. You will see the bitcoin/altcoin payment statistics in one common table on your website. No Chargebacks, Global, Secure. All in automatic mode.
-Version: 			1.1.6
+Version: 			1.1.7
 Author: 			GoUrl.io
 Author URI: 		https://gourl.io
 License: 			GPLv2
@@ -150,6 +150,8 @@ if (!function_exists('gourl_pmp_gateway_load'))
 						'gourl_defcoin',
 						'gourl_deflang',
 						'gourl_emultiplier',
+						'gourl_emailuser',
+						'gourl_emailadmin',
 						'gourl_iconwidth',
 						'currency'
 				);
@@ -302,6 +304,32 @@ if (!function_exists('gourl_pmp_gateway_load'))
 					
 					
 				// f
+				$emailtouser = $options["gourl_emailuser"];
+				if ($emailtouser != "No") $emailtouser = "Yes";
+				
+				$tmp .= $tr.'<th scope="row" valign="top"><label for="gourl_emailuser">'.__( 'Send Email to Member', GOURLPMP ).'</label></th>
+					         <td><select name="gourl_emailuser" id="gourl_emailuser">';
+				$tmp .= "<option value='Yes'".self::sel($emailtouser, "Yes").">Yes</option>";
+				$tmp .= "<option value='No'".self::sel($emailtouser, "No").">No</option>";
+				$tmp .= "</select>";
+				$tmp .= '<p class="description">'.__("Send email to Member after payment has been received", GOURLPMP)."</p></td>";
+				$tmp .= "</tr>";
+				
+
+				// g
+				$emailtoadmin = $options["gourl_emailadmin"];
+				if ($emailtoadmin != "No") $emailtoadmin = "Yes";
+				
+				$tmp .= $tr.'<th scope="row" valign="top"><label for="gourl_emailadmin">'.__( 'Send Email to Admin', GOURLPMP ).'</label></th>
+					         <td><select name="gourl_emailadmin" id="gourl_emailadmin">';
+				$tmp .= "<option value='Yes'".self::sel($emailtoadmin, "Yes").">Yes</option>";
+				$tmp .= "<option value='No'".self::sel($emailtoadmin, "No").">No</option>";
+				$tmp .= "</select>";
+				$tmp .= '<p class="description">'.__("Send email to Admin after payment has been received from member", GOURLPMP)."</p></td>";
+				$tmp .= "</tr>";
+				
+				
+				// h
 				$iconwidth = str_replace("px", "", $options["gourl_iconwidth"]);
 				if (!$iconwidth || !is_numeric($iconwidth) || $iconwidth < 30 || $iconwidth > 250) $iconwidth = 60;
 				$iconwidth = $iconwidth . "px";
@@ -312,13 +340,13 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				$tmp .= "</tr>";
 					
 					
-				// g
+				// i
 				$tmp .= $tr.'<th scope="row" valign="top"><label for="gourl_boxstyle">'.__( 'PaymentBox Style', GOURLPMP ).'</label></th>
 					<td>'.sprintf(__( "Payment Box <a href='%s'>sizes</a> and border <a href='%s'>shadow</a> you can change <a href='%s'>here &#187;</a>", GOURLPMP ), "https://gourl.io/images/global/sizes.png", "https://gourl.io/images/global/styles.png", $url."#gourlmonetaryunitprivate_key")."</td>";
 				$tmp .= "</tr>";
 					
 					
-				// h
+				// k
 				$tmp .= $tr.'<th scope="row" valign="top"><label for="gourl_lang">'.__( 'Languages', GOURLPMP ).'</label></th>
 					<td>'.sprintf(__( "If you want to use GoUrl PaidMembershipsPro Bitcoin Gateway plugin in a language other than English, see the page <a href='%s'>Languages and Translations</a>", GOURLPMP ), "https://gourl.io/languages.html")."</td>";
 				$tmp .= "</tr>";
@@ -375,7 +403,7 @@ if (!function_exists('gourl_pmp_gateway_load'))
 			 */
 			public static function pmpro_checkout_before_change_membership_level($user_id, $order)
 			{
-				global $pmpro_currency;
+			    global $pmpro_currency, $discount_code_id, $wpdb;
 				
 				if(!session_id()) session_start();
 			
@@ -525,7 +553,7 @@ if (!function_exists('gourl_pmp_gateway_load'))
     				$morder = new MemberOrder();
     				$morder->getLastMemberOrder(get_current_user_id(), apply_filters("pmpro_confirmation_order_status", array("pending")), $order->membership_id, "gourl");
     
-    				if ($morder->gateway != "gourl" || $morder->total != $order->total || $morder->membership_id != $order->membership_id || $morder->timestamp < (current_time('timestamp') - 24*60*60))
+    				if ($morder->gateway != "gourl" || !isset($morder->total) || $morder->total != $order->total || $morder->membership_id != $order->membership_id || $morder->timestamp < (current_time('timestamp') - 24*60*60))
     				{
     					$order->status = "pending";
     					$order->saveOrder();
@@ -539,8 +567,14 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				$_SESSION['gourl_pmp_orderid'] = $order->id; 
 				$_SESSION['gourl_pmp_orderdt'] = ($enddate == "NULL") ? __('NO EXPIRY', GOURLPMP) : date("d M Y", $new_startdate) . " - " . date("d M Y", strtotime(trim($enddate, "'")));
 
-				do_action( 'pmpro_before_send_to_gourl', $user_id, $morder );
-
+				//save discount code use
+				if(!empty($discount_code_id))
+				    $wpdb->query("INSERT INTO $wpdb->pmpro_discount_codes_uses (code_id, user_id, order_id, timestamp) VALUES('" . $discount_code_id . "', '" . $user_id . "', '" . $order->id . "', now())");
+				  
+				    
+				do_action( 'pmpro_before_send_to_gourl', $user_id, $order );
+				
+				
 				wp_redirect(pmpro_url("confirmation"));
 				die();
 		
@@ -969,7 +1003,7 @@ if (!function_exists('gourl_pmp_gateway_load'))
 			    if($setting_gateway == "gourl")
 			    {
 			        echo '<h2>' . __('Payment method', GOURLPMP) . '</h2>';
-			        echo __('Bitcoin/Altcoin', GOURLPMP) . '<img style="vertical-align:middle" src="' . plugins_url("/images/gourl.png", __FILE__) . '" border="0" vspace="10" hspace="10" height="43" width="143"><br><br>';
+			        echo __('Bitcoin/Altcoin', GOURLPMP) . '<img style="vertical-align:middle" src="' . plugins_url("/images/crypto.png", __FILE__) . '" border="0" vspace="10" hspace="10" height="43" width="143"><br><br>';
 			        return true;
 			    }
 			
@@ -991,7 +1025,7 @@ if (!function_exists('gourl_pmp_gateway_load'))
 						<span class="gateway_gourl">
 						<input type="radio" name="gateway" value="gourl" <?php if($gateway == "gourl") { ?>checked="checked"<?php } ?> />
 						<a href="javascript:void(0);" class="pmpro_radio" style="box-shadow:none"><?php _e('Bitcoin/Altcoin', GOURLPMP) ?></a>
-						<img style="vertical-align:middle" src="<?php echo plugins_url("/images/gourl.png", __FILE__); ?>" border="0" vspace="10" hspace="10" height="43" width="143"> 
+						<img style="vertical-align:middle" src="<?php echo plugins_url("/images/crypto.png", __FILE__); ?>" border="0" vspace="10" hspace="10" height="43" width="143"> 
 						</span>
 						
 						<br>
@@ -1208,7 +1242,7 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				if ($box_status == "cryptobox_newrecord")
 				{  
 				    //hook
-				    do_action("pmpro_after_checkout", $order->user_id);
+				    do_action("pmpro_after_checkout", $order->user_id, $order);
 				        
 				    //setup some values for the emails
 				    $invoice = new MemberOrder($order->id);
@@ -1217,21 +1251,31 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				    if(!empty($user))
 				    {
 				        $user->membership_level = new stdClass();
-				        $user->membership_level->name = $pmpro_level->name;
+				        $user->membership_level   = $pmpro_level;
+				        
+				        $invoice->cardtype = $coinName . ", &#160; " . $trID . ", &#160; " . $amount;
+				        $invoice->expirationmonth = "-";
+				        $invoice->expirationyear = "-";
 		
 				        //send email to member
-				        $pmproemail = new PMProEmail();
-				        $pmproemail->sendCheckoutEmail($user, $invoice);
+				        if (pmpro_getOption("gourl_emailuser") == "Yes")
+				        {
+    				        $pmproemail = new PMProEmail();
+    				        $pmproemail->sendCheckoutEmail($user, $invoice);
+				        }
 		
 				        //send email to admin
-				        $pmproemail = new PMProEmail();
-				        $pmproemail->sendCheckoutAdminEmail($user, $invoice);
+				        if (pmpro_getOption("gourl_emailadmin") == "Yes")
+				        {
+				            $pmproemail = new PMProEmail();
+				            $pmproemail->sendCheckoutAdminEmail($user, $invoice);
+				        }
 				    }
 			    
 				}				
 			}
 
-			return true;
+			return true;    
 		}
 
 	}
