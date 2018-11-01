@@ -217,9 +217,9 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				
 				if (class_exists('gourlclass') && defined('GOURL') && defined('GOURL_ADMIN') && is_object($gourl))
 				{
-					if (true === version_compare(GOURL_VERSION, '1.4.1', '<'))
+					if (true === version_compare(GOURL_VERSION, '1.4.14', '<'))
 					{
-						$description .= '<div style="background:#fff;border:1px solid #f77676;padding:7px"><p><b>' .sprintf(__( "Your GoUrl Bitcoin Gateway <a href='%s'>Main Plugin</a> version is too old. Requires 1.4.1 or higher version. Please <a href='%s'>update</a> to latest version.", GOURLPMP ), GOURL_ADMIN.GOURL, $mainplugin_url)."</b> &#160; &#160; &#160; &#160; " .
+						$description .= '<div style="background:#fff;border:1px solid #f77676;padding:7px"><p><b>' .sprintf(__( "Your GoUrl Bitcoin Gateway <a href='%s'>Main Plugin</a> version is too old. Requires 1.4.14 or higher version. Please <a href='%s'>update</a> to latest version.", GOURLPMP ), GOURL_ADMIN.GOURL, $mainplugin_url)."</b> &#160; &#160; &#160; &#160; " .
 										__( 'Information', GOURLPMP ) . ": &#160; <a href='https://gourl.io/bitcoin-wordpress-plugin.html'>".__( 'Main Plugin Homepage', GOURLPMP )."</a> &#160; &#160; &#160; " .
 										"<a href='https://wordpress.org/plugins/gourl-bitcoin-payment-gateway-paid-downloads-membership/'>".__( 'WordPress.org Plugin Page', GOURLPMP )."</a></p></div><br>";
 					}
@@ -719,7 +719,7 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				elseif (!$payments || !$defcoin || true === version_compare(PMPRO_VERSION, '1.8.4', '<') || true === version_compare(GOURL_VERSION, '1.4.14', '<'))
 				{
 					$tmp .= '<h2>' . __( 'Information', GOURLPMP ) . '</h2>' . PHP_EOL;
-					$tmp .=  "<div class='pmpro_message pmpro_error'>".sprintf(__( 'Sorry, but there was an error processing your order. Please try a different payment method or contact us if you need assistance (GoUrl Bitcoin Plugin v1.4.1+ not configured / %s not activated)', GOURLPMP ),(!$payments || !$defcoin || !isset($coin_names[$order_currency])?__("Cryptocurrency", GOURLPMP):$coin_names[$order_currency]))."</div>";
+					$tmp .=  "<div class='pmpro_message pmpro_error'>".sprintf(__( 'Sorry, but there was an error processing your order. Please try a different payment method or contact us if you need assistance (GoUrl Bitcoin Plugin v1.4.14+ not configured / %s not activated)', GOURLPMP ),(!$payments || !$defcoin || !isset($coin_names[$order_currency])?__("Cryptocurrency", GOURLPMP):$coin_names[$order_currency]))."</div>";
 				}
 				else
 				{
@@ -1280,7 +1280,7 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				}				
 			}
 
-			return true;         
+			return true;      
 		}
 
 	}
