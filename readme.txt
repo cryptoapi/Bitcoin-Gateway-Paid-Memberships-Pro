@@ -113,5 +113,5 @@ Localisation - You can easy change/localize any text in plugin
 
 = 1.0.0 =
 Initial Release
- 
+   
    

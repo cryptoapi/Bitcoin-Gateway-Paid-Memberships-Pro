@@ -185,7 +185,13 @@ if (!function_exists('gourl_pmp_gateway_load'))
 					$arr = $gourl->coin_names();
 						
 					foreach ($arr as $k => $v)
-						$currencies[$k] = __( "Cryptocurrency", GOURLPMP ) . " - " . __( ucfirst($v), GOURLPMP );
+					{
+					    if (in_array($v, array("bitcoin", "bitcoincash", "dash"))) 	 $decimals = 4; // 25.0001,25.0002+
+					    elseif (in_array($v, array("litecoin"))) 			         $decimals = 3; // 25.001
+					    elseif (in_array($v, array("vertcoin", "peercoin"))) 	     $decimals = 2; // 25.01
+					    else 									                     $decimals = 0; // 25
+					    $currencies[$k] = array('name' => __( "Cryptocurrency", GOURLPMP ) . " - " . __( ucfirst($v), GOURLPMP ), 'symbol' => "&#160;".$k, 'decimals' => $decimals);
+					}
 				}
 				
 				__( 'Bitcoin', GOURLPMP );  // use in translation
@@ -710,8 +716,7 @@ if (!function_exists('gourl_pmp_gateway_load'))
 					$tmp .= '<h2>' . __( 'Information', GOURLPMP ) . '</h2>' . PHP_EOL;
 					$tmp .= "<div class='pmpro_message pmpro_error'>".sprintf(__( "Please try a different payment method. Admin need to install and activate wordpress plugin <a href='%s'>GoUrl Bitcoin Gateway for Wordpress</a> to accept Bitcoin/Altcoin Payments online.", GOURLPMP ), "https://gourl.io/bitcoin-wordpress-plugin.html")."</div>";
 				}
-				elseif (!$payments || !$defcoin || true === version_compare(PMPRO_VERSION, '1.8.4', '<') || true === version_compare(GOURL_VERSION, '1.4.1', '<') ||
-						(array_key_exists($order_currency, $coin_names) && !array_key_exists($order_currency, $payments)))
+				elseif (!$payments || !$defcoin || true === version_compare(PMPRO_VERSION, '1.8.4', '<') || true === version_compare(GOURL_VERSION, '1.4.14', '<'))
 				{
 					$tmp .= '<h2>' . __( 'Information', GOURLPMP ) . '</h2>' . PHP_EOL;
 					$tmp .=  "<div class='pmpro_message pmpro_error'>".sprintf(__( 'Sorry, but there was an error processing your order. Please try a different payment method or contact us if you need assistance (GoUrl Bitcoin Plugin v1.4.1+ not configured / %s not activated)', GOURLPMP ),(!$payments || !$defcoin || !isset($coin_names[$order_currency])?__("Cryptocurrency", GOURLPMP):$coin_names[$order_currency]))."</div>";
@@ -1275,7 +1280,7 @@ if (!function_exists('gourl_pmp_gateway_load'))
 				}				
 			}
 
-			return true;    
+			return true;         
 		}
 
 	}
