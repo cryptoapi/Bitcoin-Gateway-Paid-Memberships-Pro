@@ -80,7 +80,7 @@ if (!function_exists('gourl_pmp_gateway_load'))
 			/**
 			 * 1.1
 			 */
-			function __construct($gateway = NULL)
+			function __construct($gateway = null)
 			{
 				$this->gateway = $gateway;
 				return $this->gateway;
@@ -969,7 +969,7 @@ if (!function_exists('gourl_pmp_gateway_load'))
 			 */
 			public static function valid_gateway($gateways)
 			{
-			    if (array_search('gourl', $gateways) === FALSE) $gateways[] = 'gourl';
+			    if (array_search('gourl', $gateways) === false) $gateways[] = 'gourl';
 			
 			    return $gateways;
 			}
