@@ -3,7 +3,7 @@
 Plugin Name: 		GoUrl Paid Memberships Pro - Bitcoin Payment Gateway Addon
 Plugin URI: 		https://gourl.io/bitcoin-payments-paid-memberships-pro.html
 Description: 		Provides a <a href="https://gourl.io">GoUrl.io</a> Bitcoin/Altcoin Payment Gateway for <a href="https://wordpress.org/plugins/paid-memberships-pro/">Paid Memberships Pro 1.8+</a>. Direct Integration on your website, no external payment pages opens (as other payment gateways offer). Accept Bitcoin, BitcoinCash, Litecoin, Dash, Dogecoin, Speedcoin, Reddcoin, Potcoin, Feathercoin, Vertcoin, Peercoin, MonetaryUnit payments online. You will see the bitcoin/altcoin payment statistics in one common table on your website. No Chargebacks, Global, Secure. All in automatic mode.
-Version: 			1.1.7
+Version: 			1.1.8
 Author: 			GoUrl.io
 Author URI: 		https://gourl.io
 License: 			GPLv2
@@ -24,7 +24,9 @@ if (!function_exists('gourl_pmp_gateway_load'))
 	
 	DEFINE('GOURLPMP', "gourl-paidmembershipspro");
 
-
+	// disable warnings
+	add_action("pmpro_invoice_bullets_top", function(){error_reporting(E_ERROR);});
+	
 
 			
 		
@@ -66,7 +68,9 @@ if (!function_exists('gourl_pmp_gateway_load'))
 		add_filter("pmpro_valid_gateways", array('PMProGateway_gourl', 'valid_gateway'), 10, 1);
 		add_action('admin_notices', array('PMProGateway_gourl', 'admin_notice'));
 		add_action("pmpro_checkout_boxes", array('PMProGateway_gourl', 'checkout_boxes'));
-		
+
+		// info on membership level page
+		add_action("pmpro_membership_level_after_other_settings", array('PMProGateway_gourl', 'pmpro_membership_level_after_other_settings'));
 		
 		
 		
@@ -479,6 +483,11 @@ if (!function_exists('gourl_pmp_gateway_load'))
 			     
 			    
 			    
+			    
+				// for pmpro ver 2.1+
+				if (floatval($order->subtotal) == 0 && floatval($order->InitialPayment) > 0) $order->subtotal = $order->InitialPayment;
+			    
+			    
 				// is it initial payment ?
 				if(!get_option(GOURL."PMPRO_INIT_".$user_id."_".$order->membership_level->id))
 				{
@@ -564,8 +573,9 @@ if (!function_exists('gourl_pmp_gateway_load'))
     					$order->status = "pending";
     					$order->saveOrder();
     					
-    					$user = (!get_current_user_id()) ? __('Guest', GOURLPMP) : "<a href='".admin_url("user-edit.php?user_id=".get_current_user_id())."'>user".get_current_user_id()."</a>";
-    					self::add_order_note($order->id, sprintf(__("Order Created by %s <br>Membership - %s <br>Awaiting Cryptocurrency Payment - %s <br>Invoice <a href='%s'>#%s</a>", GOURLPMP ), $user, $order->membership_level->name.($order->membership_level->expiration_number?", ".$order->membership_level->expiration_number." ".$order->membership_level->expiration_period:""), $order->total . " " . $pmpro_currency, pmpro_url("invoice", "?invoice=" . $order->code), $order->code));
+    					$userprofile = (!get_current_user_id()) ? __('Guest', GOURLPMP) : "<a href='".admin_url("user-edit.php?user_id=".get_current_user_id())."'>user".get_current_user_id()."</a>";
+    					self::add_order_note($order->id, sprintf(__("Order Created by %s <br>Membership - %s <br>Amount - %s <br>Invoice <a href='%s'>#%s</a> <br>Awaiting Cryptocurrency Payment ...", GOURLPMP ), $userprofile, $order->membership_level->name.($order->membership_level->expiration_number?", ".$order->membership_level->expiration_number." ".$order->membership_level->expiration_period:""), $order->total . " " . $pmpro_currency, pmpro_url("invoice", "?invoice=" . $order->code), $order->code));
+    					
     				}
     				else $order->id = $morder->id;  
 				}
@@ -995,9 +1005,22 @@ if (!function_exists('gourl_pmp_gateway_load'))
 			}
 			
 			
+
+			
 			
 			/**
-			 * 1.22 Add radio boxes on checkout page
+			 * 1.22 Info on membership level pages
+			 */
+			public static function pmpro_membership_level_after_other_settings ()
+			{
+			    echo "<br><br><h2>".sprintf( __('INFO: See screenshot how setup <a href="%s">Trial/Recurring Subscription for Bitcoin Payments</a> and <a href="%s">other BTC settings</a> &#187;' ), "https://gourl.io/images/pmpro/screenshot-6.png", "https://gourl.io/bitcoin-payments-paid-memberships-pro.html#screenshot") . "</h2><br><br><br>";
+			    
+			    
+			    
+			}
+			
+			/**
+			 * 1.23 Add radio boxes on checkout page
 			 */
 			public static function checkout_boxes()
 			{
@@ -1285,5 +1308,5 @@ if (!function_exists('gourl_pmp_gateway_load'))
 
 	}
 }
-  
-  
+define('PMPRO_LICENSE_NAG', false);
+                                                                           
